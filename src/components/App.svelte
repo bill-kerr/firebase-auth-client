@@ -8,7 +8,7 @@
 </script>
 
 <div>
-  <div class="px-6 mt-6 mx-auto max-w-screen-xl">
+  <div class="p-6 mx-auto max-w-screen-xl">
     <PageHeader />
     <div class="mt-12">
       <ConfigPanel on:configured={event => (configured = event.detail)} />

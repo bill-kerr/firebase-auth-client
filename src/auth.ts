@@ -120,3 +120,7 @@ export function isLoginError(error: LoginError | User): error is LoginError {
   }
   return false;
 }
+
+export function getCurrentUser() {
+  return firebase.auth().currentUser;
+}
