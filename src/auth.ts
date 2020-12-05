@@ -24,17 +24,8 @@ export async function initializeFirebase(config: FirebaseConfig): Promise<boolea
     await firebase.app().delete();
   }
   firebase.initializeApp(config);
-  try {
-    await firebase
-      .auth()
-      .signInWithEmailAndPassword('test@firebase-config-svelte.com', 'fakepassword');
-    return true;
-  } catch (error) {
-    if (error.code === 'auth/internal-error') {
-      return false;
-    }
-    return true;
-  }
+  const valid = await apiKeyValid(config.apiKey);
+  return valid;
 }
 
 type AuthUnsubscribe = () => void;
@@ -67,4 +58,14 @@ function mapUser(firebaseUser: firebase.User, token: string): User {
         loggedIn: false,
       }
     : noUser;
+}
+
+async function apiKeyValid(key: string): Promise<boolean> {
+  const baseUrl = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty';
+  const res = await fetch(`${baseUrl}/getAccountInfo?key=${key}`, {
+    method: 'POST',
+    credentials: 'same-origin',
+  });
+  const data = await res.json();
+  return data.error?.message === 'MISSING_ID_TOKEN';
 }
