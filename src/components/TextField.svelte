@@ -9,6 +9,7 @@
   <input
     class="ml-2 p-2 w-full border border-gray-300 bg-gray-50 focus:outline-none focus:ring rounded focus:bg-white"
     {name}
-    on:input
+    on:focus={this.setSelectionRange(0, value.length)}
+    on:change
     bind:value />
 </div>

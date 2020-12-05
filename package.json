@@ -22,14 +22,11 @@
     "svelte": "^3.0.0",
     "svelte-check": "^1.0.0",
     "svelte-preprocess": "^4.0.0",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.1",
+    "tailwindcss": "^2.0.1-compat",
     "tslib": "^2.0.0",
     "typescript": "^3.9.3"
   },
   "dependencies": {
     "sirv-cli": "^1.0.0"
-  },
-  "prettier": {
-    "svelteBracketNewLine": true
   }
 }
