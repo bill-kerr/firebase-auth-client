@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Tailwind from './Tailwind.svelte';
+  import './Tailwind.svelte';
   import PageHeader from './PageHeader.svelte';
   import ConfigPanel from './ConfigPanel.svelte';
   import LogInOutPanel from './LogInOutPanel.svelte';

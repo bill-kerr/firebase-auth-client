@@ -4,12 +4,13 @@
   import Panel from './Panel.svelte';
   import PanelTitle from './PanelTitle.svelte';
   import ConfigForm from './ConfigForm.svelte';
+  import WarningBadge from './WarningBadge.svelte';
   import IconCog from '../icons/IconCog.svelte';
   import IconRefresh from '../icons/IconRefresh.svelte';
-  import IconExclamation from '../icons/IconExclamation.svelte';
   import IconCheck from '../icons/IconCheck.svelte';
   import { initializeFirebase } from '../auth';
   import type { FirebaseConfig } from '../auth';
+  import SuccessBadge from './SuccessBadge.svelte';
 
   const localStorageKey = 'fb-auth-tester-config';
   const dispatch = createEventDispatcher<{ configured: boolean }>();
@@ -48,8 +49,8 @@
 </script>
 
 <Panel>
-  <div slot="header" class="flex items-center justify-between">
-    <PanelTitle title="Firebase Config">
+  <div slot="header" class="flex items-center justify-between select-none">
+    <PanelTitle title="Configure Firebase">
       <div slot="icon">
         <IconCog className="w-6 h-6 text-yellow-900" />
       </div>
@@ -68,15 +69,9 @@
           <IconRefresh className="h-10 w-10 text-gray-700 -animate-spin" />
         </div>
       {:else if !configured}
-        <div class="p-4 rounded-full bg-red-200" in:fade|local>
-          <IconExclamation className="h-10 w-10 text-red-700" />
-        </div>
-        <p class="mt-2 text-red-700 text-sm font-bold">Configuration Invalid</p>
+        <WarningBadge message="Configuration Invalid" />
       {:else}
-        <div class="p-4 rounded-full bg-green-200" in:fade|local>
-          <IconCheck className="h-10 w-10 text-green-700" />
-        </div>
-        <p class="mt-2 text-green-700 text-sm font-bold">Configuration Valid</p>
+        <SuccessBadge message="Configuration Valid" />
       {/if}
     </div>
   </div>
