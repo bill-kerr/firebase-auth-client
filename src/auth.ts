@@ -2,7 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import type { User } from './user';
 
-interface FirebaseConfig {
+export interface FirebaseConfig {
   apiKey: string;
   authDomain: string;
   databaseURL: string;
