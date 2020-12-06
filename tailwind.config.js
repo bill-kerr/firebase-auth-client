@@ -27,6 +27,7 @@ module.exports = {
     extend: {
       opacity: ['disabled'],
       cursor: ['disabled'],
+      animation: ['disabled'],
     },
   },
   plugins: [],

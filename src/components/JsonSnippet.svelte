@@ -13,6 +13,6 @@
     <IconDuplicate className="h-6 w-6 text-gray-400 hover:text-gray-500" />
   </span>
   <pre class="text-xs font-mono overflow-x-scroll">
-      {content}
-    </pre>
+    {content}
+  </pre>
 </div>

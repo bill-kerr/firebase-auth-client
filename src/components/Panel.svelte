@@ -4,7 +4,7 @@
 
 <div class="bg-white shadow rounded">
   <div
-    class={`p-4 ${show && 'border-b'} border-gray-100 cursor-pointer`}
+    class={`p-4 ${show && 'border-b'} border-gray-100 cursor-pointer select-none`}
     on:click={() => (show = !show)}>
     <slot name="header" />
   </div>

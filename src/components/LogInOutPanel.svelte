@@ -15,6 +15,7 @@
 
   export let enabled = false;
   let user: User = noUser;
+  let loginError = false;
   let loginFormValues = {
     email: '',
     password: '',
@@ -44,6 +45,19 @@
     }
   }
 
+  function handleClickLogout(clearSession: boolean) {
+    if (clearSession) {
+      logout();
+      return;
+    }
+    user.loggedIn = false;
+    dispatchLoggedIn('loggedIn', false);
+  }
+
+  function handleLoginError(isError: boolean) {
+    loginError = isError;
+  }
+
   onDestroy(authUnsubscribe);
 </script>
 
@@ -70,6 +84,7 @@
           bind:email={loginFormValues.email}
           bind:password={loginFormValues.password}
           on:login={event => handleLogin(event.detail)}
+          on:error={event => handleLoginError(event.detail)}
           {enabled} />
       </div>
       <div class="p-4 w-full flex flex-col items-center justify-center bg-gray-100 rounded">
@@ -91,6 +106,8 @@
               <span class="ml-2">Clear local session</span>
             </button>
           </div>
+        {:else if loginError}
+          <WarningBadge message="Email or password was incorrect" />
         {:else}
           <div class="flex items-center">
             <IconCursorClick className="h-6 w-6 text-gray-700" />
@@ -99,7 +116,10 @@
         {/if}
       </div>
     {:else}
-      <UserInfo {user} on:logout={() => (user.loggedIn = false)} on:clearSession={logout} />
+      <UserInfo
+        {user}
+        on:logout={() => handleClickLogout(false)}
+        on:clearSession={() => handleClickLogout(true)} />
     {/if}
   </div>
 </Panel>
