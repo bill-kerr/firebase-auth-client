@@ -13,7 +13,9 @@
   import IconCursorClick from '../icons/IconCursorClick.svelte';
   import UserInfo from './UserInfo.svelte';
 
+  export let active = false;
   export let enabled = false;
+
   let user: User = noUser;
   let loginError = false;
   let loginFormValues = {
@@ -61,22 +63,7 @@
   onDestroy(authUnsubscribe);
 </script>
 
-<Panel>
-  <div slot="header" class="flex items-center justify-between">
-    <PanelTitle title="Login/Logout">
-      <div slot="icon">
-        <IconLogin className="w-8 h-8 text-gray-700" />
-      </div>
-    </PanelTitle>
-    {#if user.loggedIn}
-      <div class="text-sm px-2 py-1 rounded font-bold text-green-800 bg-green-100">
-        Logged in as
-        {user.email}
-      </div>
-    {:else}
-      <div class="text-sm px-2 py-1 rounded font-bold text-red-800 bg-red-100">Logged out</div>
-    {/if}
-  </div>
+<Panel show={active}>
   <div slot="content" class="flex space-x-4">
     {#if !user.loggedIn}
       <div class="w-1/2 flex-shrink-0">

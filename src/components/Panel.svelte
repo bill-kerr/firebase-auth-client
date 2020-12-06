@@ -1,16 +1,9 @@
 <script lang="ts">
-  let show = false;
+  export let show: boolean = false;
 </script>
 
-<div class="bg-white shadow rounded">
-  <div
-    class={`p-4 ${show && 'border-b'} border-gray-100 cursor-pointer select-none`}
-    on:click={() => (show = !show)}>
-    <slot name="header" />
+{#if show}
+  <div class="p-4 bg-white shadow rounded">
+    <slot name="content" />
   </div>
-  {#if show}
-    <div class="p-4">
-      <slot name="content" />
-    </div>
-  {/if}
-</div>
+{/if}

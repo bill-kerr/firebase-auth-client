@@ -11,7 +11,9 @@
   import PanelTitle from './PanelTitle.svelte';
   import type { AccessToken } from '../token';
 
+  export let active = false;
   export let enabled = false;
+
   let token: AccessToken;
   let expireTime: number = 0;
   let tokenPromise = new Promise<void>(res => res());
@@ -59,7 +61,7 @@
   onDestroy(() => clearInterval(timer));
 </script>
 
-<Panel>
+<Panel show={active}>
   <div slot="header" class="flex items-center justify-between">
     <PanelTitle title="Access Token">
       <div slot="icon">

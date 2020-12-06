@@ -2,18 +2,17 @@
   import { onMount, createEventDispatcher } from 'svelte';
   import { fade } from 'svelte/transition';
   import Panel from './Panel.svelte';
-  import PanelTitle from './PanelTitle.svelte';
   import ConfigForm from './ConfigForm.svelte';
   import WarningBadge from './WarningBadge.svelte';
-  import IconCog from '../icons/IconCog.svelte';
   import IconRefresh from '../icons/IconRefresh.svelte';
-  import IconCheck from '../icons/IconCheck.svelte';
   import { initializeFirebase } from '../auth';
   import type { FirebaseConfig } from '../auth';
   import SuccessBadge from './SuccessBadge.svelte';
 
+  export let active: boolean = false;
+
   const localStorageKey = 'fb-auth-tester-config';
-  const dispatch = createEventDispatcher<{ configured: boolean }>();
+  const dispatchConfigured = createEventDispatcher<{ configured: boolean }>();
   let configured = false;
   let loading = false;
   let values = getInitialValues();
@@ -27,7 +26,7 @@
     loading = true;
     localStorage.setItem(localStorageKey, JSON.stringify(values));
     configured = await initializeFirebase(values);
-    dispatch('configured', configured);
+    dispatchConfigured('configured', configured);
     loading = false;
   }
 
@@ -48,19 +47,7 @@
   }
 </script>
 
-<Panel>
-  <div slot="header" class="flex items-center justify-between">
-    <PanelTitle title="Configure Firebase">
-      <div slot="icon">
-        <IconCog className="w-8 h-8 text-gray-700" />
-      </div>
-    </PanelTitle>
-    {#if configured}
-      <div class="text-sm px-2 py-1 rounded font-bold text-green-800 bg-green-100">Configured</div>
-    {:else}
-      <div class="text-sm px-2 py-1 rounded font-bold text-red-800 bg-red-100">Not configured</div>
-    {/if}
-  </div>
+<Panel show={active}>
   <div slot="content" class="space-x-4 flex">
     <ConfigForm bind:values on:change={handleChange} />
     <div class="p-4 w-full flex flex-col items-center justify-center bg-gray-100 rounded">
