@@ -49,10 +49,10 @@
 </script>
 
 <Panel>
-  <div slot="header" class="flex items-center justify-between select-none">
+  <div slot="header" class="flex items-center justify-between">
     <PanelTitle title="Configure Firebase">
       <div slot="icon">
-        <IconCog className="w-6 h-6 text-yellow-900" />
+        <IconCog className="w-8 h-8 text-gray-700" />
       </div>
     </PanelTitle>
     {#if configured}

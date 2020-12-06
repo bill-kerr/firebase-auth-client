@@ -7,4 +7,4 @@
 <div class="p-4 rounded-full bg-green-200" in:fade|local>
   <IconCheck className="h-10 w-10 text-green-700" />
 </div>
-<p class="mt-2 text-green-700 text-sm font-bold">{message}</p>
+<p class="mt-2 text-green-700 font-bold">{message}</p>

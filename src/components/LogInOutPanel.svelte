@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte';
+  import { onDestroy, createEventDispatcher } from 'svelte';
   import Panel from './Panel.svelte';
   import PanelTitle from './PanelTitle.svelte';
   import LogInOutForm from './LogInOutForm.svelte';
@@ -22,20 +22,25 @@
   let authUnsubscribe: AuthUnsubscribe = () => null;
   $: authUnsubscribe = enabled ? setAuthStateListener(onAuthStateChanged, false) : () => null;
 
+  const dispatchLoggedIn = createEventDispatcher<{ loggedIn: boolean }>();
+
   function onAuthStateChanged(newUser: User) {
     if (newUser.id === user.id && user.loggedIn) {
       newUser.loggedIn = true;
     }
     user = newUser;
+    dispatchLoggedIn('loggedIn', user.loggedIn);
   }
 
   function loginAsUser() {
     user.loggedIn = true;
+    dispatchLoggedIn('loggedIn', user.loggedIn);
   }
 
   function handleLogin(newUser: User) {
     if (newUser.id === user.id) {
       user.loggedIn = true;
+      dispatchLoggedIn('loggedIn', user.loggedIn);
     }
   }
 
@@ -43,10 +48,10 @@
 </script>
 
 <Panel>
-  <div slot="header" class="flex items-center justify-between select-none">
+  <div slot="header" class="flex items-center justify-between">
     <PanelTitle title="Login/Logout">
       <div slot="icon">
-        <IconLogin className="w-6 h-6 text-yellow-900" />
+        <IconLogin className="w-8 h-8 text-gray-700" />
       </div>
     </PanelTitle>
     {#if user.loggedIn}

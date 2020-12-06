@@ -5,17 +5,13 @@
   import type { User } from '../user';
   import IconTrash from '../icons/IconTrash.svelte';
   import IconLogout from '../icons/IconLogout.svelte';
-  import IconDuplicate from '../icons/IconDuplicate.svelte';
+  import JsonSnippet from './JsonSnippet.svelte';
   export let user: User = noUser;
   let firebaseUser: ReturnType<typeof getCurrentUser>;
   let jsonUser: string = '';
 
   const dispatchLogout = createEventDispatcher<{ logout: boolean }>();
   const dispatchClearSession = createEventDispatcher<{ clearSession: boolean }>();
-
-  function handleClickCopy() {
-    navigator.clipboard.writeText(jsonUser);
-  }
 
   onMount(() => {
     firebaseUser = getCurrentUser();
@@ -43,12 +39,5 @@
       </button>
     </div>
   </div>
-  <div class="relative p-4 rounded bg-gray-100">
-    <span on:click={handleClickCopy} class="absolute right-4 cursor-pointer">
-      <IconDuplicate className="h-6 w-6 text-gray-400 hover:text-gray-500" />
-    </span>
-    <pre class="text-xs font-mono overflow-x-scroll">
-      {jsonUser}
-    </pre>
-  </div>
+  <JsonSnippet content={jsonUser} />
 </div>
