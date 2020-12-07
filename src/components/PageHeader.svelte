@@ -1,7 +1,7 @@
 <script lang="ts">
-  import IconAdjustments from '../icons/IconAdjustments.svelte';
   import IconFire from '../icons/IconFire.svelte';
   import AboutModal from './AboutModal.svelte';
+  import PreferencesModal from './PreferencesModal.svelte';
 </script>
 
 <div class="flex items-center justify-between">
@@ -18,10 +18,6 @@
   </div>
   <div class="flex items-center">
     <AboutModal />
-    <button
-      class="ml-2 px-3 py-2 flex items-center border border-gray-300 bg-white font-sm font-bold rounded focus:outline-none focus:ring hover:border-gray-400">
-      <IconAdjustments className="h-5 w-5 text-gray-700" />
-      <span class="ml-2">Preferences</span>
-    </button>
+    <PreferencesModal />
   </div>
 </div>
