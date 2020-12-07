@@ -17,8 +17,7 @@
 <div class="relative h-full min-h-screen">
   <div class="p-6 mx-auto max-w-screen-xl">
     <PageHeader />
-    {configured}
-    <div class="mt-12 flex items-center space-x-4">
+    <div class="mt-6 flex items-center space-x-4">
       <NavItem
         title="Configure Firebase"
         on:click={() => (activePanel = 'config')}

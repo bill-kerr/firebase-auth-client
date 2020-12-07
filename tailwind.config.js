@@ -21,6 +21,9 @@ module.exports = {
           '100%': { transform: 'rotate(-360deg)' },
         },
       },
+      maxWidth: {
+        '3/4': '75%',
+      },
     },
   },
   variants: {
