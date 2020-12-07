@@ -31,6 +31,8 @@ module.exports = {
       opacity: ['disabled'],
       cursor: ['disabled'],
       animation: ['disabled'],
+      ringColor: ['active'],
+      ringOpacity: ['active'],
     },
   },
   plugins: [],

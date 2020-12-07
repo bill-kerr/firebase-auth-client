@@ -6,8 +6,8 @@
   import TokenPanel from './TokenPanel.svelte';
   import NavItem from './NavItem.svelte';
   import IconCog from '../icons/IconCog.svelte';
-  import IconLogin from '../icons/IconLogin.svelte';
   import IconKey from '../icons/IconKey.svelte';
+  import IconUser from '../icons/IconUser.svelte';
 
   let configured = false;
   let loggedIn = false;
@@ -31,7 +31,7 @@
         on:click={() => (activePanel = 'login')}
         active={activePanel === 'login'}>
         <div slot="icon">
-          <IconLogin className="w-8 h-8 text-gray-700" />
+          <IconUser className="w-8 h-8 text-gray-700" type="solid" />
         </div>
       </NavItem>
       <NavItem
