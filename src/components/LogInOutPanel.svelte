@@ -1,9 +1,7 @@
 <script lang="ts">
   import { onDestroy, createEventDispatcher } from 'svelte';
   import Panel from './Panel.svelte';
-  import PanelTitle from './PanelTitle.svelte';
   import LogInOutForm from './LogInOutForm.svelte';
-  import IconLogin from '../icons/IconLogin.svelte';
   import IconChevronDoubleRight from '../icons/IconChevronDoubleRight.svelte';
   import WarningBadge from './WarningBadge.svelte';
   import type { User } from '../user';
@@ -64,8 +62,18 @@
 </script>
 
 <Panel show={active}>
-  <div slot="content" class="flex space-x-4">
-    {#if !user.loggedIn}
+  <div slot="content" class="flex space-x-4 justify-center">
+    {#if !enabled}
+      <!-- NOT ENABLED -->
+      <WarningBadge message="Firebase must be configured to login" />
+    {:else if enabled && user.loggedIn}
+      <!-- ENABLED AND USER LOGGED IN -->
+      <UserInfo
+        {user}
+        on:logout={() => handleClickLogout(false)}
+        on:clearSession={() => handleClickLogout(true)} />
+    {:else}
+      <!-- ENABLED AND USER NOT LOGGED IN -->
       <div class="w-1/2 flex-shrink-0">
         <LogInOutForm
           bind:email={loginFormValues.email}
@@ -75,9 +83,17 @@
           {enabled} />
       </div>
       <div class="p-4 w-full flex flex-col items-center justify-center bg-gray-100 rounded">
-        {#if !enabled}
-          <WarningBadge message="Firebase must be configured to login" />
-        {:else if !isNoUser(user) && !user.loggedIn}
+        {#if loginError}
+          <!-- IF LOGIN ERROR -->
+          <WarningBadge message="Email or password was incorrect" />
+        {:else if isNoUser(user)}
+          <!-- NO USER DETECTED -->
+          <div class="flex items-center">
+            <IconCursorClick className="h-6 w-6 text-gray-700" />
+            <span class="ml-2">Login using the form to the left</span>
+          </div>
+        {:else}
+          <!-- USER DETECTED -->
           <div>
             <button
               on:click={loginAsUser}
@@ -93,20 +109,8 @@
               <span class="ml-2">Clear local session</span>
             </button>
           </div>
-        {:else if loginError}
-          <WarningBadge message="Email or password was incorrect" />
-        {:else}
-          <div class="flex items-center">
-            <IconCursorClick className="h-6 w-6 text-gray-700" />
-            <span class="ml-2">Login using the form to the left</span>
-          </div>
         {/if}
       </div>
-    {:else}
-      <UserInfo
-        {user}
-        on:logout={() => handleClickLogout(false)}
-        on:clearSession={() => handleClickLogout(true)} />
     {/if}
   </div>
 </Panel>

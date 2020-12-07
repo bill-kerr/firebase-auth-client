@@ -4,12 +4,11 @@
   import beautify from 'json-beautify';
   import { getCurrentUser, getNewToken } from '../auth';
   import IconDuplicate from '../icons/IconDuplicate.svelte';
-  import IconLockClosed from '../icons/IconLockClosed.svelte';
   import IconRefresh from '../icons/IconRefresh.svelte';
   import JsonSnippet from './JsonSnippet.svelte';
   import Panel from './Panel.svelte';
-  import PanelTitle from './PanelTitle.svelte';
   import type { AccessToken } from '../token';
+  import WarningBadge from './WarningBadge.svelte';
 
   export let active = false;
   export let enabled = false;
@@ -38,8 +37,10 @@
 
   async function getToken() {
     const user = getCurrentUser();
-    const tokenString = await user.getIdToken();
-    setToken(tokenString);
+    if (user) {
+      const tokenString = await user.getIdToken();
+      setToken(tokenString);
+    }
   }
 
   function setToken(tokenString: string) {
@@ -62,34 +63,9 @@
 </script>
 
 <Panel show={active}>
-  <div slot="header" class="flex items-center justify-between">
-    <PanelTitle title="Access Token">
-      <div slot="icon">
-        <IconLockClosed type="solid" className="h-8 w-8 text-gray-700" />
-      </div>
-    </PanelTitle>
-    {#if loadingRefresh}
-      <div class="text-sm px-2 py-1 rounded font-bold text-green-800 bg-green-100">
-        Refreshing token...
-      </div>
-    {:else if enabled && token && expireTime > 0}
-      <div class="text-sm px-2 py-1 rounded font-bold text-green-800 bg-green-100">
-        Your access token expires in
-        {`${minutes + minname} ${seconds}s`}
-      </div>
-    {:else if enabled && token && expireTime <= 0}
-      <div class="text-sm px-2 py-1 rounded font-bold text-red-800 bg-red-100">
-        Your access token has expired
-      </div>
-    {:else}
-      <div class="text-sm px-2 py-1 rounded font-bold text-red-800 bg-red-100">
-        Login to get an access token
-      </div>
-    {/if}
-  </div>
-  <div slot="content">
+  <div slot="content" class="">
     {#if !enabled}
-      <p>Login to get an access token.</p>
+      <WarningBadge message="Login to get an access token" />
     {:else}
       {#await tokenPromise}
         <div>Loading token....</div>
