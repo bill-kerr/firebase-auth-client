@@ -8,7 +8,7 @@
   import IconRefresh from '../icons/IconRefresh.svelte';
   import JsonSnippet from './JsonSnippet.svelte';
   import Panel from './Panel.svelte';
-  import type { AccessToken } from '../token';
+  import type { AccessToken } from '../types';
   import WarningBadge from './WarningBadge.svelte';
 
   export let active = false;
