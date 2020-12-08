@@ -3,14 +3,7 @@
   import IconBadgeCheck from '../icons/IconBadgeCheck.svelte';
   import Modal from './Modal.svelte';
   import ToggleButton from './ToggleButton.svelte';
-  import { getPreferences, savePreferences } from '../storage';
-
-  let preferences = getPreferences();
-
-  function handleToggle(name: string, toggled: boolean) {
-    preferences[name] = toggled;
-    savePreferences(preferences);
-  }
+  import { preferences } from '../stores';
 </script>
 
 <Modal>
@@ -41,8 +34,8 @@
         </div>
         <div class="ml-16">
           <ToggleButton
-            on:toggled={event => handleToggle('autoLogin', event.detail)}
-            initial={preferences.autoLogin} />
+            on:toggled={event => preferences.setAutoLogin(event.detail)}
+            initial={$preferences.autoLogin} />
         </div>
       </li>
     </ul>

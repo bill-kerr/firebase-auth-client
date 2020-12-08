@@ -51,6 +51,7 @@
     <div class="mt-4">
       <LogInOutPanel
         enabled={configured}
+        autoLogin={true}
         on:loggedIn={event => (loggedIn = event.detail)}
         active={activePanel === 'login'} />
     </div>

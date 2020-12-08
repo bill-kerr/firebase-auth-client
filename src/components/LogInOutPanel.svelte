@@ -13,6 +13,7 @@
 
   export let active = false;
   export let enabled = false;
+  export let autoLogin = false;
 
   let user: User = noUser;
   let loginError = false;
@@ -21,7 +22,7 @@
     password: '',
   };
   let authUnsubscribe: AuthUnsubscribe = () => null;
-  $: authUnsubscribe = enabled ? setAuthStateListener(onAuthStateChanged, false) : () => null;
+  $: authUnsubscribe = enabled ? setAuthStateListener(onAuthStateChanged, autoLogin) : () => null;
 
   const dispatchLoggedIn = createEventDispatcher<{ loggedIn: boolean }>();
 
