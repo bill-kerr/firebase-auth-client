@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
+  import { fade } from 'svelte/transition';
   import decode from 'jwt-decode';
   import beautify from 'json-beautify';
   import { getCurrentUser, getNewToken } from '../auth';
@@ -17,6 +18,7 @@
   let expireTime: number = 0;
   let tokenPromise = new Promise<void>(res => res());
   let loadingRefresh = false;
+  let copied = false;
   $: minutes = Math.floor(expireTime / 60);
   $: minname = minutes > 1 ? 'mins' : 'min';
   $: seconds = Math.floor(expireTime - minutes * 60);
@@ -49,7 +51,16 @@
   }
 
   function handleClickCopy() {
+    setCopied();
     navigator.clipboard.writeText(token.tokenString);
+  }
+
+  function setCopied() {
+    if (copied) {
+      return;
+    }
+    copied = true;
+    setTimeout(() => (copied = false), 1000);
   }
 
   async function handleClickRefresh() {
@@ -63,7 +74,7 @@
 </script>
 
 <Panel show={active}>
-  <div slot="content" class="">
+  <div slot="content">
     {#if !enabled}
       <WarningBadge message="Login to get an access token" />
     {:else}
@@ -80,9 +91,17 @@
           <div class="flex flex-shrink-0 items-center">
             <button
               on:click={handleClickCopy}
-              class="py-3 px-4 h-full flex flex-shrink-0 items-center bg-gray-900 text-white font-bold text-sm rounded hover:bg-gray-800 focus:ring focus:outline-none">
+              class="relative py-3 px-4 h-full flex flex-shrink-0 items-center bg-gray-900 text-white font-bold text-sm rounded hover:bg-gray-800 focus:ring focus:outline-none">
               <IconDuplicate className="h-6 w-6" />
               <span class="ml-2">Copy to Clipboard</span>
+              {#if copied}
+                <div class="absolute top-full inset-x-0 z-10">
+                  <div class="mt-2 flex justify-center">
+                    <span
+                      class="bg-gray-900 bg-opacity-75 text-xs font-normal rounded py-0.5 px-1">Copied!</span>
+                  </div>
+                </div>
+              {/if}
             </button>
             <button
               on:click={handleClickRefresh}

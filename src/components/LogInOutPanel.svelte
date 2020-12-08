@@ -49,7 +49,6 @@
   function handleClickLogout(clearSession: boolean) {
     if (clearSession) {
       logout();
-      return;
     }
     user.loggedIn = false;
     dispatchLoggedIn('loggedIn', false);

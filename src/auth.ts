@@ -51,7 +51,9 @@ export function setAuthStateListener(
   return firebase.auth().onAuthStateChanged(async firebaseUser => {
     const token = firebaseUser ? await firebaseUser.getIdToken() : '';
     const user = mapUser(firebaseUser, token);
-    user.loggedIn = autoLogin;
+    if (!isNoUser(user)) {
+      user.loggedIn = autoLogin;
+    }
     onAuthStateChanged(user);
   });
 }
