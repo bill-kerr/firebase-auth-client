@@ -50,7 +50,7 @@
   <button
     type="submit"
     disabled={!enabled || loading}
-    class="mt-4 p-3 w-full font-bold bg-yellow-400 rounded focus:outline-none focus:ring hover:bg-yellow-300 disabled:cursor-not-allowed disabled:opacity-50">
+    class="mt-4 p-3 w-full font-bold text-white bg-gray-900 rounded focus:outline-none focus:ring hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50">
     {#if loading}Logging in...{:else}Login{/if}
   </button>
 </form>

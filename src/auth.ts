@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import type { User } from './user';
+import type { User } from './types';
+import { FIREBASE_CHECK_URL } from './constants';
 
 export interface FirebaseConfig {
   apiKey: string;
@@ -75,8 +76,7 @@ function mapUser(firebaseUser: firebase.User, token: string): User {
 }
 
 async function apiKeyValid(key: string): Promise<boolean> {
-  const baseUrl = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty';
-  const res = await fetch(`${baseUrl}/getAccountInfo?key=${key}`, {
+  const res = await fetch(`${FIREBASE_CHECK_URL}?key=${key}`, {
     method: 'POST',
     credentials: 'same-origin',
   });

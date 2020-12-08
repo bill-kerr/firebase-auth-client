@@ -5,17 +5,16 @@
   import ConfigForm from './ConfigForm.svelte';
   import WarningBadge from './WarningBadge.svelte';
   import IconRefresh from '../icons/IconRefresh.svelte';
-  import { initializeFirebase } from '../auth';
-  import type { FirebaseConfig } from '../auth';
   import SuccessBadge from './SuccessBadge.svelte';
+  import { initializeFirebase } from '../auth';
+  import { getFirebaseConfig, saveFirebaseConfig } from '../storage';
 
   export let active: boolean = false;
 
-  const localStorageKey = 'fb-auth-tester-config';
   const dispatchConfigured = createEventDispatcher<{ configured: boolean }>();
   let configured = false;
   let loading = false;
-  let values = getInitialValues();
+  let values = getFirebaseConfig();
 
   onMount(async () => {
     await handleChange();
@@ -24,26 +23,10 @@
   async function handleChange() {
     configured = false;
     loading = true;
-    localStorage.setItem(localStorageKey, JSON.stringify(values));
+    saveFirebaseConfig(values);
     configured = await initializeFirebase(values);
     dispatchConfigured('configured', configured);
     loading = false;
-  }
-
-  function getInitialValues(): FirebaseConfig {
-    const storedValues = localStorage.getItem(localStorageKey);
-    if (storedValues) {
-      return JSON.parse(storedValues) as FirebaseConfig;
-    }
-    return {
-      apiKey: '',
-      appId: '',
-      authDomain: '',
-      databaseURL: '',
-      messagingSenderId: '',
-      projectId: '',
-      storageBucket: '',
-    };
   }
 </script>
 
