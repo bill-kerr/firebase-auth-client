@@ -1,17 +1,18 @@
 <script lang="ts">
-  import './Tailwind.svelte';
-  import PageHeader from './PageHeader.svelte';
-  import ConfigPanel from './ConfigPanel.svelte';
-  import LogInOutPanel from './LogInOutPanel.svelte';
-  import TokenPanel from './TokenPanel.svelte';
-  import NavItem from './NavItem.svelte';
-  import IconCog from '../icons/IconCog.svelte';
-  import IconKey from '../icons/IconKey.svelte';
-  import IconUser from '../icons/IconUser.svelte';
+  import "./Tailwind.svelte";
+  import PageHeader from "./PageHeader.svelte";
+  import ConfigPanel from "./ConfigPanel.svelte";
+  import LogInOutPanel from "./LogInOutPanel.svelte";
+  import TokenPanel from "./TokenPanel.svelte";
+  import NavItem from "./NavItem.svelte";
+  import IconCog from "../icons/IconCog.svelte";
+  import IconKey from "../icons/IconKey.svelte";
+  import IconUser from "../icons/IconUser.svelte";
+  import { preferences } from "../stores";
 
   let configured = false;
   let loggedIn = false;
-  let activePanel: 'config' | 'login' | 'token' = 'config';
+  let activePanel: "config" | "login" | "token" = "config";
 </script>
 
 <div class="relative h-full min-h-screen">
@@ -45,18 +46,20 @@
     </div>
     <div class="mt-4">
       <ConfigPanel
-        on:configured={event => (configured = event.detail)}
+        on:configured={(event) => (configured = event.detail)}
         active={activePanel === 'config'} />
     </div>
     <div class="mt-4">
       <LogInOutPanel
         enabled={configured}
-        autoLogin={true}
-        on:loggedIn={event => (loggedIn = event.detail)}
+        autoLogin={$preferences.autoLogin}
+        on:loggedIn={(event) => (loggedIn = event.detail)}
         active={activePanel === 'login'} />
     </div>
     <div class="mt-4">
-      <TokenPanel enabled={configured && loggedIn} active={activePanel === 'token'} />
+      <TokenPanel
+        enabled={configured && loggedIn}
+        active={activePanel === 'token'} />
     </div>
   </div>
 </div>

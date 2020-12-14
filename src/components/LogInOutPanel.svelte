@@ -1,15 +1,16 @@
 <script lang="ts">
-  import { onDestroy, createEventDispatcher } from 'svelte';
-  import Panel from './Panel.svelte';
-  import LogInOutForm from './LogInOutForm.svelte';
-  import IconChevronDoubleRight from '../icons/IconChevronDoubleRight.svelte';
-  import WarningBadge from './WarningBadge.svelte';
-  import type { User } from '../user';
-  import { noUser, setAuthStateListener, isNoUser, logout } from '../auth';
-  import type { AuthUnsubscribe } from '../auth';
-  import IconTrash from '../icons/IconTrash.svelte';
-  import IconCursorClick from '../icons/IconCursorClick.svelte';
-  import UserInfo from './UserInfo.svelte';
+  import { onDestroy, createEventDispatcher } from "svelte";
+  import Panel from "./Panel.svelte";
+  import LogInOutForm from "./LogInOutForm.svelte";
+  import IconChevronDoubleRight from "../icons/IconChevronDoubleRight.svelte";
+  import WarningBadge from "./WarningBadge.svelte";
+  import type { User } from "../types";
+  import { noUser, setAuthStateListener, isNoUser, logout } from "../auth";
+  import type { AuthUnsubscribe } from "../auth";
+  import IconTrash from "../icons/IconTrash.svelte";
+  import IconCursorClick from "../icons/IconCursorClick.svelte";
+  import UserInfo from "./UserInfo.svelte";
+  import { preferences } from "../stores";
 
   export let active = false;
   export let enabled = false;
@@ -18,11 +19,13 @@
   let user: User = noUser;
   let loginError = false;
   let loginFormValues = {
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   };
   let authUnsubscribe: AuthUnsubscribe = () => null;
-  $: authUnsubscribe = enabled ? setAuthStateListener(onAuthStateChanged, autoLogin) : () => null;
+  $: authUnsubscribe = enabled
+    ? setAuthStateListener(onAuthStateChanged, autoLogin)
+    : () => null;
 
   const dispatchLoggedIn = createEventDispatcher<{ loggedIn: boolean }>();
 
@@ -31,18 +34,18 @@
       newUser.loggedIn = true;
     }
     user = newUser;
-    dispatchLoggedIn('loggedIn', user.loggedIn);
+    dispatchLoggedIn("loggedIn", user.loggedIn);
   }
 
   function loginAsUser() {
     user.loggedIn = true;
-    dispatchLoggedIn('loggedIn', user.loggedIn);
+    dispatchLoggedIn("loggedIn", user.loggedIn);
   }
 
   function handleLogin(newUser: User) {
     if (newUser.id === user.id) {
       user.loggedIn = true;
-      dispatchLoggedIn('loggedIn', user.loggedIn);
+      dispatchLoggedIn("loggedIn", user.loggedIn);
     }
   }
 
@@ -51,7 +54,7 @@
       logout();
     }
     user.loggedIn = false;
-    dispatchLoggedIn('loggedIn', false);
+    dispatchLoggedIn("loggedIn", false);
   }
 
   function handleLoginError(isError: boolean) {
@@ -78,11 +81,12 @@
         <LogInOutForm
           bind:email={loginFormValues.email}
           bind:password={loginFormValues.password}
-          on:login={event => handleLogin(event.detail)}
-          on:error={event => handleLoginError(event.detail)}
+          on:login={(event) => handleLogin(event.detail)}
+          on:error={(event) => handleLoginError(event.detail)}
           {enabled} />
       </div>
-      <div class="p-4 w-full flex flex-col items-center justify-center bg-gray-100 rounded">
+      <div
+        class="p-4 w-full flex flex-col items-center justify-center bg-gray-100 rounded">
         {#if loginError}
           <!-- IF LOGIN ERROR -->
           <WarningBadge message="Email or password was incorrect" />
