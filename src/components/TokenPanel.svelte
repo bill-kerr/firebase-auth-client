@@ -26,11 +26,13 @@
     tokenPromise = getToken();
   }
 
-  const timer = setInterval(() => {
+  const timer = setInterval(setExpireTime, 1000);
+
+  function setExpireTime() {
     if (token) {
       expireTime = token.exp - Math.round(+new Date() / 1000);
     }
-  }, 1000);
+  }
 
   function decodeAndFormatToken(token: string) {
     const decoded = decode(token);
@@ -48,6 +50,7 @@
   function setToken(tokenString: string) {
     const decoded = decode(tokenString) as AccessToken;
     token = { ...decoded, tokenString };
+    setExpireTime();
   }
 
   function handleClickCopy() {
