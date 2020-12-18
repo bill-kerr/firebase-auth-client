@@ -1,26 +1,26 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte';
-  import { fade } from 'svelte/transition';
-  import decode from 'jwt-decode';
-  import beautify from 'json-beautify';
-  import { getCurrentUser, getNewToken } from '../auth';
-  import IconDuplicate from '../icons/IconDuplicate.svelte';
-  import IconRefresh from '../icons/IconRefresh.svelte';
-  import JsonSnippet from './JsonSnippet.svelte';
-  import Panel from './Panel.svelte';
-  import type { AccessToken } from '../types';
-  import WarningBadge from './WarningBadge.svelte';
+  import { onDestroy } from "svelte";
+  import { fade } from "svelte/transition";
+  import decode from "jwt-decode";
+  import beautify from "json-beautify";
+  import { getCurrentUser, getNewToken } from "../auth";
+  import IconDuplicate from "../icons/IconDuplicate.svelte";
+  import IconRefresh from "../icons/IconRefresh.svelte";
+  import JsonSnippet from "./JsonSnippet.svelte";
+  import Panel from "./Panel.svelte";
+  import type { AccessToken } from "../types";
+  import WarningBadge from "./WarningBadge.svelte";
 
   export let active = false;
   export let enabled = false;
 
   let token: AccessToken;
   let expireTime: number = 0;
-  let tokenPromise = new Promise<void>(res => res());
+  let tokenPromise = new Promise<void>((res) => res());
   let loadingRefresh = false;
   let copied = false;
   $: minutes = Math.floor(expireTime / 60);
-  $: minname = minutes > 1 ? 'mins' : 'min';
+  $: minname = minutes > 1 ? "mins" : "min";
   $: seconds = Math.floor(expireTime - minutes * 60);
   $: if (enabled) {
     tokenPromise = getToken();
@@ -84,7 +84,8 @@
         <div class="flex space-x-4">
           <div
             class={`p-2 bg-gray-100 border border-gray-300 rounded font-mono overflow-x-scroll ${loadingRefresh && 'opacity-50'}`}>
-            <pre class="p-2 text-sm">
+            <pre
+              class="p-2 text-sm">
               {token.tokenString}
             </pre>
           </div>
@@ -112,6 +113,16 @@
               <span class="ml-2">Refresh Token</span>
             </button>
           </div>
+        </div>
+        <div class="mt-4 p-4 rounded-lg bg-yellow-100">
+          {#if expireTime === 0}
+            <p>Your token is expired. Click refresh token to renew it.</p>
+          {:else}
+            <p>
+              Your token expires in
+              <span class="font-bold">{minutes}{minname} {seconds}s</span>.
+            </p>
+          {/if}
         </div>
         <div class={`mt-4 ${loadingRefresh && 'opacity-50'}`}>
           <JsonSnippet content={decodeAndFormatToken(token.tokenString)} />
