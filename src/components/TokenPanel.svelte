@@ -118,7 +118,7 @@
           </div>
         </div>
         <div class="mt-4 p-4 rounded-lg bg-yellow-100">
-          {#if expireTime === 0}
+          {#if expireTime <= 0}
             <p>Your token is expired. Click refresh token to renew it.</p>
           {:else}
             <p>
